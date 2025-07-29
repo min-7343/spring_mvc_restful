@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- 파비콘(favicon) 설정 링크 -->
+<link rel="shortcut icon"
+href="http://192.168.10.84/images/favicon.ico"/>
+<!-- 부트스트랩  CDN -->    
+<link rel="stylesheet" type="text/css"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"/>
+<!-- jquery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- Vue CDN -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+$(function(){
+
+});
+
+</script>
+</head>
+<body>
+<!-- Vue app은 app이라는 id 안에서만 동작한다. -->
+<!-- 매개변수 없는 함수는 call() , call 쓸 수 있다 -->
+<!-- Vue 객체의 객체 접근 : this -->
+<!-- 전역변수 gFunction은 직접 접근 가능하다. -->
+<div id="app">
+<h2> 함수 호출 </h2>
+	<input type="button" value="클릭"  @Click="call"/>
+	<input type="button" value="test호출"  @Click="test('오늘은 금요일')"/>
+	<div>
+	<strong>v-model : 양방향 바인딩</strong>
+	<!-- 화면에서 바뀌거나 데이터가 바뀌면 부르는 쪽(Vue)에서 바로 변수가 반영된다. -->
+		<input type="text" v-model="name" @keydown="useVModel()"/><br>
+		<div>{{name}}</div>
+	<strong>:value : 단방향 바인딩</strong>
+	<!-- 화면에서 바뀌거나 데이터가 바뀌어도 부르는 쪽(Vue)에서 바로 변수가 반영되지 않는다. -->
+		<input type="text" :value="addr" @keydown="useValue()"/>
+		<div>{{addr}}</div>
+	</div>
+	<strong>입력키 정보</strong>
+		<input type="text" @keydown="event"/>
+</div>
+
+<script>
+var msg2="Vue3";
+function gFunction(){
+	alert("외부 함수");
+}
+
+Vue.createApp({
+	data(){
+		return { title:"함수의 호출 및 사용", name:"이장훈", addr:"서울시" }
+	},
+	methods:{
+		call(){
+			alert( "함수 호출 : 버튼 클릭 "+this.title );
+			this.test("이것이 자바다!");
+			//외부 영역에 있는 변수나 함수는 직접접근 가능
+			alert( msg2 );
+			gFunction();
+		},
+		test(msg){
+			alert("test : " + msg);
+		},
+		useVModel(){
+			//양방향 바인딩 : 사용자가 값을 변경하면 변수에 바로 반영.
+			//변수 <-> 입력값
+			console.log("양방향 : " + this.name);
+			
+		},
+		useValue(){
+			//단방향 바인딩 : 사용자가 값을 변경하더라도 변수에 반영되지 않음.
+			//변수 -> 입력값
+			console.log("단방향 : " + this.addr);
+		},
+		event( evt ){ 
+			//if(evt.keyCode==13){
+			if(evt.key=="Enter"){
+				alert("엔터 눌림");
+			}
+			alert(evt.key+" / "+ evt.keyCode);
+		}
+	}
+	
+}).mount("#app");
+
+</script>
+</body>
+</html>
